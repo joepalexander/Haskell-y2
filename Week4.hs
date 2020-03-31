@@ -25,3 +25,19 @@ minAndMax :: Int -> Int -> (Int,Int)
 minAndMax x y 
     | x <= y            = (x,y)
     | otherwise         = (y,x)
+
+sumDifference :: Int -> Int -> (Int,Int)
+sumDifference x y = (x+y, x-y)
+
+grade :: StudentMark -> Char
+grade y x 
+    | x >= 70 = (y,'A')
+    | 60 < x && x < 69 = (y, 'B')
+    | 50 < x && x < 59 = (y, 'C')
+    | 40 < x && x < 49 = (y, 'D')
+    | x <= 39 = (y, 'F')
+        -- x >= 70 = 'A'
+        -- 60 < x && x < 69 = 'B'
+        -- 50 < x && x < 59 = 'C'
+        -- 40 < x && x < 49 = 'D'
+        -- x <= 39 = 'F'
