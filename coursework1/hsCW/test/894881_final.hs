@@ -260,23 +260,23 @@ inMainMenu rainDataset = do
 
 inAction :: String -> [Place] -> IO ()
 -- Save the database and exit the UI
-inAction "0" rainDataset = executeOption "0" rainDataset
+inAction "0" rainDataset = pickedChoice "0" rainDataset
 -- Display all of the location names in the Dataset.
-inAction "1" rainDataset = executeOption "1"  rainDataset
+inAction "1" rainDataset = pickedChoice "1"  rainDataset
 -- Display all the films within the database
-inAction "2" rainDataset = executeOption "2" rainDataset
+inAction "2" rainDataset = pickedChoice "2" rainDataset
 -- -- Get all the films that were released after a certain date
-inAction "3" rainDataset = executeOption "3"  rainDataset
+inAction "3" rainDataset = pickedChoice "3"  rainDataset
 -- -- Get all the films with a particular fan
-inAction "4" rainDataset = executeOption "4"  rainDataset
+inAction "4" rainDataset = pickedChoice "4"  rainDataset
 -- -- Get all the fans of a particular film
-inAction "5" rainDataset = executeOption "5"  rainDataset
+inAction "5" rainDataset = pickedChoice "5"  rainDataset
 -- -- Assign a fan to a particular film
-inAction "6" rainDataset = executeOption "6" rainDataset
+inAction "6" rainDataset = pickedChoice "6" rainDataset
 -- -- All fans of films directed by a particular director
-inAction "7" rainDataset = executeOption "7" rainDataset
+inAction "7" rainDataset = pickedChoice "7" rainDataset
 -- -- All directors & no. of their films that a particular fan is is a fan of
-inAction "8" rainDataset = executeOption "8" rainDataset
+inAction "8" rainDataset = pickedChoice "8" rainDataset
 -- -- Display errors if the input is invalid!
 inAction _ rainDataset = do
  putStrLn (inSendErrorInput "option" )
@@ -291,12 +291,12 @@ inSendErrorInput "option" = "\n[Error]: Your input is not valid. Select option 1
 inSendErrorInput _ = ""
 
 
-executeOption :: String -> [Place] -> IO ()
-executeOption "1"  rainDataset = do  
+pickedChoice :: String -> [Place] -> IO ()
+pickedChoice "1"  rainDataset = do  
     putStrLn ("Here is a list of our datasets!")
     print (getNames rainDataset)
     inMainMenu rainDataset
-executeOption "2" rainDataset = do
+pickedChoice "2" rainDataset = do
   putStrLn "Get the Average from where?"
   userLocation <- getLine
   case (checkLocExists userLocation rainDataset) of
@@ -306,13 +306,13 @@ executeOption "2" rainDataset = do
         inMainMenu rainDataset
     False -> do 
         putStrLn ("location not valid")
-        executeOption "2" rainDataset
+        pickedChoice "2" rainDataset
   inMainMenu rainDataset
-executeOption "3"  rainDataset = do
+pickedChoice "3"  rainDataset = do
   putStrLn ("Here is a nicely formatted table of our datasets!")
   putStrLn (placesToString  rainDataset)
   inMainMenu rainDataset
-executeOption "4" rainDataset = do
+pickedChoice "4" rainDataset = do
   putStrLn "Enter the number of days ago:"
   numDaysInput <- getLine
   let numDays = read numDaysInput :: Int
@@ -322,8 +322,8 @@ executeOption "4" rainDataset = do
       inMainMenu rainDataset
     False -> do
       putStrLn("shut up bruv")
-      executeOption "4"  rainDataset
-executeOption "5" rainDataset = do
+      pickedChoice "4"  rainDataset
+pickedChoice "5" rainDataset = do
   putStrLn "Enter the data to update:"
   dataInput <- getLine
   let newData = read dataInput :: [Int]
@@ -335,8 +335,8 @@ executeOption "5" rainDataset = do
       inMainMenu rainDataset
     False ->  do
       putStrLn("nae working")
-      executeOption "5"  rainDataset
-executeOption "6" rainDataset = do
+      pickedChoice "5"  rainDataset
+pickedChoice "6" rainDataset = do
   putStrLn "Enter the name of the place you would like to replace:"
   oldPlace <- getLine
   case (checkLocExists oldPlace rainDataset) of
@@ -350,22 +350,22 @@ executeOption "6" rainDataset = do
       inMainMenu rainDataset
     False -> do
       putStrLn ("place does not exit")
-      executeOption "6" rainDataset
-executeOption "7" rainDataset = do
+      pickedChoice "6" rainDataset
+pickedChoice "7" rainDataset = do
   putStrLn "Enter co-ordinates: "
   coordInput <- getLine
   let coordinates = read coordInput :: (Float, Float)
   putStrLn (closestPlaceName coordinates rainDataset)
   inMainMenu rainDataset
-executeOption "8" rainDataset = do
+pickedChoice "8" rainDataset = do
   rainfallMap rainDataset
-executeOption "0"  rainDataset = do
+pickedChoice "0"  rainDataset = do
   writeFile "data.txt" (show  rainDataset)
-executeOption _  rainDataset = do
+pickedChoice _  rainDataset = do
   putStrLn "Select a valid option."
   inMainMenu  rainDataset
-executeOption "0"  rainDataset = do
+pickedChoice "0"  rainDataset = do
   writeFile "data.txt" (show  rainDataset)
-executeOption _  rainDataset = do
+pickedChoice _  rainDataset = do
   putStrLn "Select a valid option."
   inMainMenu  rainDataset
